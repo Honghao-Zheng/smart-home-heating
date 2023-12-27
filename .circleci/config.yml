@@ -51,6 +51,6 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - install-and-test
-      # - build-image-and-push:
-      #     requires: 
-      #       - build-and-test # Ensures that the build and test job finished before we try to push docker image
+      - build-image-and-push:
+          requires: 
+            - build-and-test # Ensures that the build and test job finished before we try to push docker image
