@@ -8,7 +8,6 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   install-and-test:
     working_directory: ~/smart-home-heating
@@ -29,19 +28,19 @@ jobs:
           name: Run status tests 
           working_directory: ~/smart-home-heating
 
-  # build-image-and-push:
-  #   working_directory: ~/ce-cicd-sample-java-web
-  #   docker:
-  #     - image: cimg/aws:2023.05
-  #   steps:
-  #     - setup_remote_docker # Ensures that we can issue docker build commands
-  #     - aws-ecr/build-and-push-image:
-  #         repo: java-cicd
-  #         path: "demo-app" # This is the directory to look for the Dockerfile
-  #         build-path: "demo-app" # This is directory for Docker to load the build path to source code
-  #         tag: ${CIRCLE_BUILD_NUM} # This will be automatically replaced with the job number
-  #         public-registry-alias: a5z6u3o2
-  #         public-registry: true
+  build-image-and-push:
+    working_directory: ~/smart-home-heating
+    docker:
+      - image: cimg/aws:2023.05
+    steps:
+      - setup_remote_docker # Ensures that we can issue docker build commands
+      - aws-ecr/build-and-push-image:
+          repo: smart-home
+          path: "./" # This is the directory to look for the Dockerfile
+          build-path: "./" # This is directory for Docker to load the build path to source code
+          tag: ${CIRCLE_BUILD_NUM} # This will be automatically replaced with the job number
+          public-registry-alias: a5z6u3o2
+          public-registry: true
 
 
 
