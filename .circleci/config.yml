@@ -1,0 +1,57 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@9.0.1
+  node: circleci/node@5.1.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
+jobs:
+
+  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+  install-and-test:
+    working_directory: ~/smart-home-heating
+    docker:
+      - image: cimg/base:stable
+    # executor: node/default
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run:
+          command: npm install
+          name: Build status app   
+          working_directory: ~/smart-home-heating
+      - run:
+          command: npm test
+          name: Run status tests 
+          working_directory: ~/smart-home-heating
+
+  # build-image-and-push:
+  #   working_directory: ~/ce-cicd-sample-java-web
+  #   docker:
+  #     - image: cimg/aws:2023.05
+  #   steps:
+  #     - setup_remote_docker # Ensures that we can issue docker build commands
+  #     - aws-ecr/build-and-push-image:
+  #         repo: java-cicd
+  #         path: "demo-app" # This is the directory to look for the Dockerfile
+  #         build-path: "demo-app" # This is directory for Docker to load the build path to source code
+  #         tag: ${CIRCLE_BUILD_NUM} # This will be automatically replaced with the job number
+  #         public-registry-alias: a5z6u3o2
+  #         public-registry: true
+
+
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/configuration-reference/#workflows
+workflows:
+  demo-app-pipeline: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - install-and-test
+      # - build-image-and-push:
+      #     requires: 
+      #       - build-and-test # Ensures that the build and test job finished before we try to push docker image
