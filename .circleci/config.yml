@@ -53,4 +53,4 @@ workflows:
       - install-and-test
       - build-image-and-push:
           requires: 
-            - build-and-test # Ensures that the build and test job finished before we try to push docker image
+            - install-and-test # Ensures that the build and test job finished before we try to push docker image
