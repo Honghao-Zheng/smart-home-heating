@@ -38,7 +38,7 @@ jobs:
           repo: smart-home
           path: "./" # This is the directory to look for the Dockerfile
           build-path: "./" # This is directory for Docker to load the build path to source code
-          tag: ${CIRCLE_BUILD_NUM} # This will be automatically replaced with the job number
+          tag: heating_${CIRCLE_BUILD_NUM} # This will be automatically replaced with the job number
           public-registry-alias: a5z6u3o2
           public-registry: true
 
